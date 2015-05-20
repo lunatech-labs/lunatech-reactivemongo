@@ -2,7 +2,7 @@ import sbt._
 import sbt.Keys._
 
 object BuildSettings {
-  val buildVersion = "0.10.5.0.akka23-baps"
+  val buildVersion = "0.10.5.0.akka23-custom-1-SNAPSHOT"
 
   val filter = { (ms: Seq[(File, String)]) =>
     ms filter {
@@ -12,7 +12,7 @@ object BuildSettings {
   }
 
   val buildSettings = Defaults.defaultSettings ++ Seq(
-    organization := "org.reactivemongo",
+    organization := "nl.malmberg.baps",
     version := buildVersion,
     scalaVersion := "2.11.2",
     crossScalaVersions  := Seq("2.11.2", "2.10.4"),
@@ -30,9 +30,9 @@ object BuildSettings {
 
 object Publish {
   def targetRepository: Def.Initialize[Option[Resolver]] = Def.setting {
-    val nexus = "https://oss.sonatype.org/"
+    val nexus = "https://nexus.build.edubase.malmberg.nl/"
     val snapshotsR = "snapshots" at nexus + "content/repositories/snapshots"
-    val releasesR  = "releases"  at nexus + "service/local/staging/deploy/maven2"
+    val releasesR  = "releases"  at nexus + "content/repositories/releases"
     val resolver = if (isSnapshot.value) snapshotsR else releasesR
     Some(resolver)
   }
